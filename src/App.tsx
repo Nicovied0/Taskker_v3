@@ -1,10 +1,15 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
+import Home from './pages/Home/Home';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
+
+import '@mobiscroll/react/dist/css/mobiscroll.min.css';
+
+
+
 
 /* Basic CSS for apps built with Ionic */
 import '@ionic/react/css/normalize.css';
@@ -21,6 +26,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import CalendarDay from './components/calendar-day/CalendarDay';
 
 setupIonicReact();
 
@@ -31,6 +37,7 @@ const App: React.FC = () => (
         <Route exact path="/home">
           <Home />
         </Route>
+      
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>

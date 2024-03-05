@@ -1,13 +1,14 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
+import CalendarMonth from '../../components/calendar-month/CalendarMonth';
+import CalendarWeek from '../../components/calendar-week/CalendarWeek';
 
 const Home: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Blank</IonTitle>
+          <IonTitle>Calendar</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -16,7 +17,8 @@ const Home: React.FC = () => {
             <IonTitle size="large">Blank</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer />
+        <CalendarMonth></CalendarMonth>
+        {/* <CalendarWeek/> */}
       </IonContent>
     </IonPage>
   );
