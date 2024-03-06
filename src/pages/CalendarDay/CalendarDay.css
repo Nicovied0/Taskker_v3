@@ -1,0 +1,22 @@
+.divHeader{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction:row-reverse
+}
+.hederStructure{
+    min-width: 162px;
+    text-align: center
+}
+.menu{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+@media (max-width: 600px)  {
+    .hederStructure {
+        min-width: auto;
+    }
+  }

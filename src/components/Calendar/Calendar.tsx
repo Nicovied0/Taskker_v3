@@ -1,4 +1,4 @@
-import "./CalendarDay.css";
+import "./Calendar.css";
 import {
   Eventcalendar,
   getJson,
@@ -37,7 +37,7 @@ setOptions({
 }
 });
 
-const CalendarDay: React.FC<ContainerProps> = () => {
+const Calendar: React.FC<ContainerProps> = () => {
     const [myEvents, setEvents] = useState([]);
     const [isToastOpen, setToastOpen] = useState(false);
     const [toastText, setToastText] = useState();
@@ -82,4 +82,4 @@ const CalendarDay: React.FC<ContainerProps> = () => {
   );
 };
 
-export default CalendarDay;
+export default Calendar;
