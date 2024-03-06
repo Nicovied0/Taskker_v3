@@ -9,12 +9,11 @@ import {
   IonButtons,
   IonMenuButton,
 } from "@ionic/react";
-import { Link } from "react-router-dom";
 import { calendarOutline, calendarSharp } from "ionicons/icons";
 import "./Home.css";
-import CalendarMonth from "../../components/calendar-month/CalendarMonth";
+import { Link } from "react-router-dom";
 
-const Home: React.FC = () => {
+const CalendarDay: React.FC = () => {
   const [selectedCalendar, setSelectedCalendar] = useState<"month" | "day">(
     "month"
   );
@@ -29,7 +28,7 @@ const Home: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonTitle>Calendar</IonTitle>
+            <IonTitle>Calendar Day</IonTitle>
           </IonButtons>
 
           <div style={{ flex: "1", textAlign: "center" }}>
@@ -64,10 +63,10 @@ const Home: React.FC = () => {
             <IonTitle size="large">Blank </IonTitle>
           </IonToolbar>
         </IonHeader>
-        <CalendarMonth></CalendarMonth>
+        <CalendarDay></CalendarDay>
       </IonContent>
     </IonPage>
   );
 };
 
-export default Home;
+export default CalendarDay;
