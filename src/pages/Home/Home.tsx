@@ -7,6 +7,7 @@ import {
   IonToolbar,
   IonIcon,
   IonButtons,
+  IonMenuButton,
 } from "@ionic/react";
 import { calendarOutline, calendarSharp } from "ionicons/icons";
 import "./Home.css";
@@ -14,25 +15,24 @@ import CalendarMonth from "../../components/calendar-month/CalendarMonth";
 import CalendarDay from "../../components/calendar-day/CalendarDay";
 
 const Home: React.FC = () => {
-  const [selectedCalendar, setSelectedCalendar] = useState<
-    "month" | "day"
-  >("month");
+  const [selectedCalendar, setSelectedCalendar] = useState<"month" | "day">(
+    "month"
+  );
 
-  const handleCalendarChange = (calendar: "month"  | "day") => {
+  const handleCalendarChange = (calendar: "month" | "day") => {
     setSelectedCalendar(calendar);
-    console.log(calendar)
+    console.log(calendar);
   };
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          {/* Iconos en la izquierda */}
-          <IonButtons slot="start">
+          <IonButtons slot="start" >
             <IonTitle>Calendar</IonTitle>
           </IonButtons>
 
-          <IonButtons slot="start">
+          <IonButtons >
             <div style={{ width: "120px", textAlign: "center" }}>
               <IonIcon
                 color="secondary"
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
                 onClick={() => handleCalendarChange("month")}
                 style={{ marginRight: "10px" }}
               />
-      
+
               <IonIcon
                 icon={
                   selectedCalendar === "day" ? calendarSharp : calendarOutline
@@ -50,6 +50,9 @@ const Home: React.FC = () => {
                 onClick={() => handleCalendarChange("day")}
               />
             </div>
+          </IonButtons>
+          <IonButtons slot="end">
+            <IonMenuButton autoHide={false}></IonMenuButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -60,7 +63,6 @@ const Home: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         {selectedCalendar === "month" && <CalendarMonth></CalendarMonth>}
-        {selectedCalendar === "week" && <CalendarWeek></CalendarWeek>}
         {selectedCalendar === "day" && <CalendarDay></CalendarDay>}
       </IonContent>
     </IonPage>
