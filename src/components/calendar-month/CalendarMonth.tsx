@@ -9,6 +9,7 @@ import {
   Button,
 } from "@mobiscroll/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { deleteTask } from "../../core/services/task.service";
 
 interface ContainerProps {}
 
@@ -41,11 +42,16 @@ const CalendarMonth: React.FC<ContainerProps> = () => {
   }, [selectedEvent]);
 
   const handleDeleteEvent = useCallback(() => {
-    // Eliminar el evento
     const updatedEvents = myEvents.filter((event) => event !== selectedEvent);
     setEvents(updatedEvents);
-    setPopupOpen(false);
-    showToast("Evento eliminado");
+    deleteTask(selectedEvent._id)
+    .then(() => {
+      setPopupOpen(false);
+      showToast("Evento eliminado");
+    })
+    .catch((error) => {
+      console.error("Error al eliminar el evento:", error);
+    });
   }, [myEvents, selectedEvent]);
 
   const showToast = (message: string) => {
@@ -58,7 +64,7 @@ const CalendarMonth: React.FC<ContainerProps> = () => {
   useEffect(() => {
     getJson("https://taskker-back.vercel.app/task", (events) => {
       setEvents(events);
-      console.log(events);
+    
       console.log(myEvents)
     });
   }, []);

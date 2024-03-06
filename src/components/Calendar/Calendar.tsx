@@ -11,6 +11,7 @@ import {
   Popup,
 } from "@mobiscroll/react";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
+import { deleteTask } from "../../core/services/task.service";
 
 setOptions({
   locale: localeEs,
@@ -48,12 +49,16 @@ const handleEditEvent = useCallback(() => {
   }, [selectedEvent]);
 
   const handleDeleteEvent = useCallback(() => {
-    // Eliminar el evento
     const updatedEvents = myEvents.filter((event) => event !== selectedEvent);
     setEvents(updatedEvents);
-    console.log(selectedEvent)
-    setPopupOpen(false);
-    showToast("Evento eliminado");
+    deleteTask(selectedEvent._id)
+    .then(() => {
+      setPopupOpen(false);
+      showToast("Evento eliminado");
+    })
+    .catch((error) => {
+      console.error("Error al eliminar el evento:", error);
+    });
   }, [myEvents, selectedEvent]);
 
   const showToast = (message: string) => {
