@@ -1,84 +1,105 @@
-import "./Calendar.css";
 import {
   Eventcalendar,
   getJson,
+  MbscCalendarEvent,
+  MbscEventcalendarView,
+  MbscEventClickEvent,
+  localeEs,
   setOptions,
   Toast,
-  localeEs,
+  Button,
+  Popup,
 } from "@mobiscroll/react";
-import { useCallback, useEffect, useMemo, useState } from "react";
-
-interface ContainerProps {}
+import { FC, useCallback, useEffect, useMemo, useState } from "react";
 
 setOptions({
   locale: localeEs,
   theme: "ios",
   themeVariant: "light",
-  responsive: {
-    xsmall: {
-        view: {
-            calendar: {
-                type: 'week'
-            },
-            agenda: {
-                type: 'day'
-            }
-        }
-    },
-    custom: { // Custom breakpoint
-        breakpoint: 600,
-        view: {
-            calendar: { 
-                labels: true
-            }
-        }
-    }
-
-}
 });
 
-const Calendar: React.FC<ContainerProps> = () => {
-    const [myEvents, setEvents] = useState([]);
-    const [isToastOpen, setToastOpen] = useState(false);
-    const [toastText, setToastText] = useState();
-  
-    const handleToastClose = useCallback(() => {
-      setToastOpen(false);
-    }, []);
-  
-    const handleEventClick = useCallback((args:any) => {
-      setToastText(args.event.title);
-      setToastOpen(true);
-    }, []);
-  
-    const myView = useMemo(() => ({ calendar: { labels: true } }), []);
-  
-    useEffect(() => {
-      getJson(
-        'https://trial.mobiscroll.com/events/?vers=5',
-        (events) => {
-          setEvents(events);
-          console.log(events)
-        },
-        'jsonp',
-      );
-    }, []);
-    
-  
-    return (
-      <>
-        <Eventcalendar
-         clickToCreate={true}
-         dragToCreate={true}
-         dragToMove={true}
-         dragToResize={false}
-         eventDelete={true}
-          data={myEvents}
-          view={myView}
-          onEventClick={handleEventClick}
-        />
-        <Toast message={toastText} isOpen={isToastOpen} onClose={handleToastClose} />
-      </>
+const Calendar: FC = () => {
+  const [myEvents, setEvents] = useState<MbscCalendarEvent[]>([]);
+  const [isToastOpen, setToastOpen] = useState<boolean>(false);
+  const [toastText, setToastText] = useState<string>();
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [isPopupOpen, setPopupOpen] = useState(false);
+
+  const myView = useMemo<MbscEventcalendarView>(
+    () => ({
+      schedule: { type: "week" },
+    }),
+    []
+  );
+
+  const handleToastClose = useCallback(() => {
+    setToastOpen(false);
+  }, []);
+
+  const handleEventClick = useCallback((args: any) => {
+    setSelectedEvent(args.event);
+    setPopupOpen(true);
+  }, []);
+
+const handleEditEvent = useCallback(() => {
+    console.log("Editar evento:", selectedEvent);
+    setPopupOpen(false);
+    showToast("Evento editado");
+  }, [selectedEvent]);
+
+  const handleDeleteEvent = useCallback(() => {
+    // Eliminar el evento
+    const updatedEvents = myEvents.filter((event) => event !== selectedEvent);
+    setEvents(updatedEvents);
+    console.log(selectedEvent)
+    setPopupOpen(false);
+    showToast("Evento eliminado");
+  }, [myEvents, selectedEvent]);
+
+  const showToast = (message: string) => {
+    setToastText(message);
+    setToastOpen(true);
+  };
+
+
+  useEffect(() => {
+    getJson(
+      "https://taskker-back.vercel.app/task",
+      (events: MbscCalendarEvent[]) => {
+        setEvents(events);
+      }
+    );
+  }, []);
+
+  return (
+    <>
+      <Eventcalendar
+        clickToCreate={true}
+        dragToCreate={true}
+        dragToMove={true}
+        dragToResize={true}
+        eventDelete={true}
+        data={myEvents}
+        view={myView}
+        onEventClick={handleEventClick}
+      />
+   {selectedEvent && (
+        <Popup
+          isOpen={isPopupOpen}
+          onClose={() => setPopupOpen(false)}
+          display="center"
+        >
+          <div>
+            <h3>{selectedEvent.title}</h3>
+            <p>{selectedEvent.description}</p>
+            <p>{selectedEvent.status}</p>
+            <Button onClick={handleEditEvent}>Editar</Button>
+            <Button onClick={handleDeleteEvent}>Eliminar</Button>
+          </div>
+        </Popup>
+      )}
+
+    </>
   );
 };
 

@@ -26,7 +26,6 @@ const CalendarDay: React.FC = () => {
 
   const handleCalendarChange = (calendar: "month" | "day") => {
     setSelectedCalendar(calendar);
-    console.log(calendar);
   };
 
   useEffect(() => {

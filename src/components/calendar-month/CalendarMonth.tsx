@@ -1,5 +1,13 @@
 import "./CalendarMonth.css";
-import { Eventcalendar, getJson, setOptions, Toast, localeEs, Popup, Button } from "@mobiscroll/react";
+import {
+  Eventcalendar,
+  getJson,
+  setOptions,
+  Toast,
+  localeEs,
+  Popup,
+  Button,
+} from "@mobiscroll/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 interface ContainerProps {}
@@ -8,36 +16,6 @@ setOptions({
   locale: localeEs,
   theme: "ios",
   themeVariant: "light",
-  responsive: {
-    xsmall: {
-      view: {
-        calendar: {
-          type: 'week'
-        },
-        agenda: {
-          type: 'day'
-        }
-      }
-    },
-    small: {
-      view: {
-        calendar: {
-          type: 'week'
-        },
-        agenda: {
-          type: 'day'
-        }
-      }
-    },
-    custom: { // Custom breakpoint
-      breakpoint: 600,
-      view: {
-        calendar: { 
-          labels: true,
-        }
-      }
-    }
-  }
 });
 
 const CalendarMonth: React.FC<ContainerProps> = () => {
@@ -57,10 +35,9 @@ const CalendarMonth: React.FC<ContainerProps> = () => {
   }, []);
 
   const handleEditEvent = useCallback(() => {
-    // Aquí puedes implementar la lógica para editar el evento
-    console.log('Editar evento:', selectedEvent);
+    console.log("Editar evento:", selectedEvent);
     setPopupOpen(false);
-    showToast('Evento editado');
+    showToast("Evento editado");
   }, [selectedEvent]);
 
   const handleDeleteEvent = useCallback(() => {
@@ -68,7 +45,7 @@ const CalendarMonth: React.FC<ContainerProps> = () => {
     const updatedEvents = myEvents.filter((event) => event !== selectedEvent);
     setEvents(updatedEvents);
     setPopupOpen(false);
-    showToast('Evento eliminado');
+    showToast("Evento eliminado");
   }, [myEvents, selectedEvent]);
 
   const showToast = (message: string) => {
@@ -79,13 +56,11 @@ const CalendarMonth: React.FC<ContainerProps> = () => {
   const myView = useMemo(() => ({ calendar: { labels: true } }), []);
 
   useEffect(() => {
-    getJson(
-      'https://taskker-back.vercel.app/task',
-      (events) => {
-        setEvents(events);
-        console.log(events)
-      },
-    );
+    getJson("https://taskker-back.vercel.app/task", (events) => {
+      setEvents(events);
+      console.log(events);
+      console.log(myEvents)
+    });
   }, []);
 
   return (
@@ -100,7 +75,11 @@ const CalendarMonth: React.FC<ContainerProps> = () => {
         view={myView}
         onEventClick={handleEventClick}
       />
-      <Toast message={toastText} isOpen={isToastOpen} onClose={handleToastClose} />
+      <Toast
+        message={toastText}
+        isOpen={isToastOpen}
+        onClose={handleToastClose}
+      />
       {selectedEvent && (
         <Popup
           isOpen={isPopupOpen}
@@ -110,6 +89,7 @@ const CalendarMonth: React.FC<ContainerProps> = () => {
           <div>
             <h3>{selectedEvent.title}</h3>
             <p>{selectedEvent.description}</p>
+            <p>{selectedEvent.status}</p>
             <Button onClick={handleEditEvent}>Editar</Button>
             <Button onClick={handleDeleteEvent}>Eliminar</Button>
           </div>

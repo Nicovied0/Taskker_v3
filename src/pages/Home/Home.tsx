@@ -24,10 +24,7 @@ const Home: React.FC = () => {
   );
   const [showMenu, setShowMenu] = useState(false);
 
-  const handleCalendarChange = (calendar: "month" | "day") => {
-    setSelectedCalendar(calendar);
-    console.log(calendar);
-  };
+
 
   useEffect(() => {
     const handleDocumentClick = (event: MouseEvent) => {
@@ -89,7 +86,6 @@ const Home: React.FC = () => {
                         ? calendarSharp
                         : calendarOutline
                     }
-                    onClick={() => handleCalendarChange("month")}
                     style={{ marginRight: "10px" }}
                   />
                 </Link>
@@ -101,7 +97,7 @@ const Home: React.FC = () => {
                         ? calendarSharp
                         : calendarOutline
                     }
-                    onClick={() => handleCalendarChange("day")}
+                  
                   />
                 </Link>
               </div>
@@ -119,8 +115,8 @@ const Home: React.FC = () => {
             </div>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
-          <CalendarMonth></CalendarMonth>
+        <IonContent> 
+          <CalendarMonth></CalendarMonth> 
         </IonContent>
       </IonPage>
     </>
