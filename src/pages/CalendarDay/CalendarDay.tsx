@@ -63,10 +63,10 @@ const CalendarDay: React.FC = () => {
               <IonRouterLink routerLink="/home">Settings</IonRouterLink>
             </IonItem>
             <IonItem>
-              <IonRouterLink routerLink="/profile">Profile</IonRouterLink>
+              <IonRouterLink routerLink="/profile">Perfil</IonRouterLink>
             </IonItem>
             <IonItem>
-              <IonRouterLink routerLink="/">Home</IonRouterLink>
+              <IonRouterLink routerLink="/">Inicio</IonRouterLink>
             </IonItem>
           </IonList>
         </IonContent>

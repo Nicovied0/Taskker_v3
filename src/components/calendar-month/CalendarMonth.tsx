@@ -10,6 +10,7 @@ import {
 } from "@mobiscroll/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { deleteTask } from "../../core/services/task.service";
+import AddTask from "../../components/AddTask/AddTask";
 
 interface ContainerProps {}
 
@@ -101,6 +102,7 @@ const CalendarMonth: React.FC<ContainerProps> = () => {
           </div>
         </Popup>
       )}
+      <AddTask></AddTask>
     </>
   );
 };

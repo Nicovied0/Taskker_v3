@@ -24,8 +24,6 @@ const Home: React.FC = () => {
   );
   const [showMenu, setShowMenu] = useState(false);
 
-
-
   useEffect(() => {
     const handleDocumentClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
@@ -61,10 +59,10 @@ const Home: React.FC = () => {
               <IonRouterLink routerLink="/home">Settings</IonRouterLink>
             </IonItem>
             <IonItem>
-              <IonRouterLink routerLink="/profile">Profile</IonRouterLink>
+              <IonRouterLink routerLink="/profile">Perfil</IonRouterLink>
             </IonItem>
             <IonItem>
-              <IonRouterLink routerLink="/">Home</IonRouterLink>
+              <IonRouterLink routerLink="/">Inicio</IonRouterLink>
             </IonItem>
           </IonList>
         </IonContent>
@@ -97,7 +95,6 @@ const Home: React.FC = () => {
                         ? calendarSharp
                         : calendarOutline
                     }
-                  
                   />
                 </Link>
               </div>
@@ -115,8 +112,8 @@ const Home: React.FC = () => {
             </div>
           </IonToolbar>
         </IonHeader>
-        <IonContent> 
-          <CalendarMonth></CalendarMonth> 
+        <IonContent>
+          <CalendarMonth></CalendarMonth>
         </IonContent>
       </IonPage>
     </>

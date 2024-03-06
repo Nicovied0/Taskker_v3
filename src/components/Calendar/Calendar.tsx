@@ -12,6 +12,7 @@ import {
 } from "@mobiscroll/react";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { deleteTask } from "../../core/services/task.service";
+import AddTask from "../AddTask/AddTask";
 
 setOptions({
   locale: localeEs,
@@ -42,7 +43,7 @@ const Calendar: FC = () => {
     setPopupOpen(true);
   }, []);
 
-const handleEditEvent = useCallback(() => {
+  const handleEditEvent = useCallback(() => {
     console.log("Editar evento:", selectedEvent);
     setPopupOpen(false);
     showToast("Evento editado");
@@ -52,20 +53,19 @@ const handleEditEvent = useCallback(() => {
     const updatedEvents = myEvents.filter((event) => event !== selectedEvent);
     setEvents(updatedEvents);
     deleteTask(selectedEvent._id)
-    .then(() => {
-      setPopupOpen(false);
-      showToast("Evento eliminado");
-    })
-    .catch((error) => {
-      console.error("Error al eliminar el evento:", error);
-    });
+      .then(() => {
+        setPopupOpen(false);
+        showToast("Evento eliminado");
+      })
+      .catch((error) => {
+        console.error("Error al eliminar el evento:", error);
+      });
   }, [myEvents, selectedEvent]);
 
   const showToast = (message: string) => {
     setToastText(message);
     setToastOpen(true);
   };
-
 
   useEffect(() => {
     getJson(
@@ -88,7 +88,7 @@ const handleEditEvent = useCallback(() => {
         view={myView}
         onEventClick={handleEventClick}
       />
-   {selectedEvent && (
+      {selectedEvent && (
         <Popup
           isOpen={isPopupOpen}
           onClose={() => setPopupOpen(false)}
@@ -104,6 +104,7 @@ const handleEditEvent = useCallback(() => {
         </Popup>
       )}
 
+      <AddTask></AddTask>
     </>
   );
 };
