@@ -1,7 +1,7 @@
 import HTTP_BASE_URL from "../../constants/HttpConstant";
 const apiUrl = HTTP_BASE_URL + "/auth";
 
-const login = async (data: any) => {
+export const login = async (data: any) => {
   try {
     const response = await fetch(apiUrl + "/login", {
       method: "POST",
@@ -32,7 +32,7 @@ const login = async (data: any) => {
   }
 };
 
-const register = async (data: any) => {
+export const register = async (data: any) => {
   try {
     const response = await fetch(apiUrl + "/register", {
       method: "POST",
@@ -53,12 +53,12 @@ const register = async (data: any) => {
   }
 };
 
-const logout = () => {
+export const logout = () => {
   localStorage.removeItem("authToken");
   localStorage.removeItem("userData");
 };
 
-const fetchUserProfile = async (token: string) => {
+export const fetchUserProfile = async (token: string) => {
   try {
     const response = await fetch(apiUrl + "/profile", {
       method: "GET",
@@ -81,4 +81,3 @@ const fetchUserProfile = async (token: string) => {
   }
 };
 
-export { login, register, logout };
