@@ -25,7 +25,7 @@ const Auth: React.FC = () => {
           <h2 className="titles">Taskker</h2>
         </Link>
         <div className="bodyauth">
-          <AuthForm onSubmit={handleAuthSubmit} />
+          <AuthForm onSubmit={handleAuthSubmit}  />
         </div>
       </div>
     </div>

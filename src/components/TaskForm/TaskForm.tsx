@@ -8,6 +8,7 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const [meetingUrl, setMeetingUrl] = useState("");
   const [startDateTime, setStartDateTime] = useState("");
   const [endDateTime, setEndDateTime] = useState("");
+  const [butonActive, setButonActive] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -34,33 +35,35 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setEndDateTime(event.target.value);
+    const start = new Date(startDateTime);
+    const end = new Date(endDateTime);
+
+    if (end <= start) {
+      setButonActive(false)
+      throw new Error(
+        "La fecha y hora de fin deben ser posteriores a la fecha y hora de inicio."
+      );
+    } else {
+      setButonActive(true);
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     try {
-      // Aquí puedes realizar alguna acción con los datos ingresados, como enviarlos a tu backend
-      console.log("Título:", title);
-      console.log("Descripción:", description);
-      console.log("Fecha y hora de inicio:", startDateTime + ":00");
-      console.log("Fecha y hora de fin:", endDateTime + ":00");
-
-      // Crear un objeto con los datos de la tarea
       const taskData = {
         title: title,
         description: description,
-        startDateTime: startDateTime + ":00",
-        endDateTime: endDateTime + ":00",
+        start: startDateTime + ":00",
+        end: endDateTime + ":00",
       };
 
-      // Llamar a la función createTask y pasarle los datos de la tarea
       const createdTask = await createTask(taskData);
 
-      // Realizar alguna acción con la tarea creada, si es necesario
       console.log("Tarea creada:", createdTask);
+      closeModal();
     } catch (error: any) {
-      // Manejar errores de creación de tarea
       console.error("Error al crear la tarea:", error.message);
     }
   };
@@ -118,9 +121,15 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
         />
       </div>
       <div className="form-buttons">
-        <button type="submit" className="save-button">
-          Guardar
-        </button>
+        {!butonActive ? (
+          <button type="submit" className="save-button2" disabled>
+            Guardar
+          </button>
+        ) : (
+          <button type="submit" className="save-button">
+            Guardar
+          </button>
+        )}
         <button type="button" className="cancel-button" onClick={closeModal}>
           Cancelar
         </button>

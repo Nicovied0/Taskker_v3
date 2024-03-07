@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./AuthForm.css"
+import "./AuthForm.css";
+import { login, register } from "../../core/services/Auth.service";
 
 interface AuthFormProps {
   onSubmit: (email: string, password: string, name?: string) => void;
@@ -9,18 +10,31 @@ const AuthForm: React.FC<AuthFormProps> = ({ onSubmit }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [isRegistering, setIsRegistering] = useState(false); 
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(email, password, isRegistering ? name : undefined);
+
+    try {
+      setIsLoading(true);
+      if (isRegistering && name) {
+        await register({ email, password, name });
+      } else {
+        await login({ email, password });
+      }
+
+      onSubmit(email, password, isRegistering ? name : undefined);
+      window.location.href = "/home";
+    } catch (error: any) {
+      console.error("Error:", error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="form"
-    >
+    <form onSubmit={handleSubmit} className="form">
       <div>
         {isRegistering && (
           <div style={{ marginBottom: "1rem" }}>
@@ -42,7 +56,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ onSubmit }) => {
                 background: "white",
                 border: "1px solid #ccc",
               }}
-              
             />
           </div>
         )}
@@ -90,31 +103,39 @@ const AuthForm: React.FC<AuthFormProps> = ({ onSubmit }) => {
         </div>
       </div>
       <div className="inputsbuton">
-
-      <button
-        type="submit"
-        style={{
-          backgroundColor: "#007bff",
-          color: "#fff",
-          padding: "0.5rem 1rem",
-          borderRadius: "4px",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
-        {isRegistering ? "Register" : "Login"}
-      </button>
-      <div
-        style={{ marginTop: "0.5rem", textAlign: "center", fontSize: "0.9rem" }}
-      >
-        {isRegistering ? "Ya tienes una cuenta? " : "No tienes una cuenta? "}
-        <span
-          style={{ color: "#007bff", cursor: "pointer" }}
-          onClick={() => setIsRegistering(!isRegistering)}
+        <button
+          type="submit"
+          style={{
+            backgroundColor: "#007bff",
+            color: "#fff",
+            padding: "0.5rem 1rem",
+            borderRadius: "4px",
+            border: "none",
+            cursor: "pointer",
+          }}
         >
-          {isRegistering ? "Logueate" : "Regístrate"}
-        </span>
-      </div>
+          {!isLoading && <>{isRegistering ? "Registrarse" : "Loguearse"}</>}
+          {isLoading && (
+            <div className="divLoader">
+              <span className="loader"></span>
+            </div>
+          )}
+        </button>
+        <div
+          style={{
+            marginTop: "0.5rem",
+            textAlign: "center",
+            fontSize: "0.9rem",
+          }}
+        >
+          {isRegistering ? "Ya tienes una cuenta? " : "No tienes una cuenta? "}
+          <span
+            style={{ color: "#007bff", cursor: "pointer" }}
+            onClick={() => setIsRegistering(!isRegistering)}
+          >
+            {isRegistering ? "Logueate" : "Regístrate"}
+          </span>
+        </div>
       </div>
     </form>
   );

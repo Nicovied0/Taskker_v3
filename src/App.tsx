@@ -35,9 +35,9 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
-        <Route exact path="/home" render={() => <AuthGuard component={Home} isAuthenticated={false} authenticationPath={"/auth"} />} />
-        <Route exact path="/home/day" render={() => <AuthGuard component={CalendarDay} isAuthenticated={false} authenticationPath={"/auth"} />} />
-        <Route exact path="/profile" render={() => <AuthGuard component={Profile} isAuthenticated={false} authenticationPath={"/auth"} />} />
+        <Route exact path="/home" render={(props) => <AuthGuard {...props} isAuthenticated={true} authenticationPath="/auth" component={Home} />} />
+        <Route exact path="/home/day" render={(props) => <AuthGuard {...props} isAuthenticated={true} authenticationPath="/auth" component={CalendarDay} />} />
+        <Route exact path="/profile" render={(props) => <AuthGuard {...props} isAuthenticated={true} authenticationPath="/auth" component={Profile} />} />
         <Route exact path="/auth" component={Auth} />
         <Route exact path="/" component={Landing} />
       </IonRouterOutlet>

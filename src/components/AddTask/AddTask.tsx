@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { IonFab, IonFabButton, IonIcon, IonModal, IonButton, IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/react";
+import {
+  IonFab,
+  IonFabButton,
+  IonIcon,
+  IonModal,
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
 import { add } from "ionicons/icons";
 import TaskForm from "../TaskForm/TaskForm";
 

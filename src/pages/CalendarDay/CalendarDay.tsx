@@ -59,9 +59,9 @@ const CalendarDay: React.FC = () => {
         </IonHeader>
         <IonContent className="ion-padding">
           <IonList>
-            <IonItem>
+            {/* <IonItem>
               <IonRouterLink routerLink="/home">Settings</IonRouterLink>
-            </IonItem>
+            </IonItem> */}
             <IonItem>
               <IonRouterLink routerLink="/profile">Perfil</IonRouterLink>
             </IonItem>
