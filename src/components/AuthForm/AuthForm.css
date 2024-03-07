@@ -1,0 +1,30 @@
+.inputsbuton {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-width: 30%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #80808030;
+  border-radius: 10px;
+  min-height: 350px;
+}
+
+@media (max-width: 1000px)  {
+    .form {
+        min-width: 50%;
+    }
+  }
+
+  @media (max-width: 500px)  {
+    .form {
+        min-width: 90%;
+    }
+  }

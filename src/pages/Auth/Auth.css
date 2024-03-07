@@ -1,0 +1,21 @@
+.page{
+    background-color: white;
+}
+.bodyauth{
+    height: calc(100vh - 70.30px);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+}
+.titles{
+font-size: 2rem;
+margin: 0;
+padding: 1rem 3rem;
+cursor: pointer;
+color: black;
+}
+
+a{
+    text-decoration: none;
+}

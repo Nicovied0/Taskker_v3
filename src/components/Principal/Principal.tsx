@@ -2,6 +2,7 @@ import React from "react";
 import Footer from "../../components/Footer/Footer";
 import { Button } from "@mobiscroll/react";
 import "./Principal.css"
+import { Link } from "react-router-dom";
 const Principal: React.FC = () => {
   return (
     <div className="container">
@@ -15,9 +16,11 @@ const Principal: React.FC = () => {
             forma eficiente. Organiza tus proyectos y colabora con facilidad.
             Simplifica tu flujo de trabajo con Taskker. ¡Únete hoy mismo!
           </p>
+          <Link to="/home">
           <Button style={{ backgroundColor: "#279efe", color: "white",margin:"0" }}>
             Empezar
           </Button>
+          </Link>
         </div>
         <div className="textTitle">
           <img
