@@ -1,5 +1,3 @@
-
-
 function getUserDataFromLocalStorage() {
   const userDataString = localStorage.getItem('userData');
   if (userDataString) {
@@ -29,5 +27,4 @@ function getIdUser() {
   }
 }
 
-
-export { getUserDataFromLocalStorage, updateRole,getIdUser };
+export { getUserDataFromLocalStorage, updateRole, getIdUser };

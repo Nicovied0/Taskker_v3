@@ -80,4 +80,3 @@ export const fetchUserProfile = async (token: string) => {
     throw new Error("Error al obtener perfil de usuario: " + error.message);
   }
 };
-

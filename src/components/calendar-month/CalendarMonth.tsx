@@ -9,7 +9,7 @@ import {
   Button,
 } from "@mobiscroll/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { deleteTask } from "../../core/services/Task.service.tsx";
+import { deleteTask } from "../../core/services/Task.service.jsx";
 import AddTask from "../../components/AddTask/AddTask";
 import { getIdUser } from "../../core/services/Profile.service";
 

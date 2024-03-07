@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./TaskForm.css";
-import { createTask } from "../../core/services/Task.service.tsx";
+import { createTask } from "../../core/services/Task.service.jsx";
 
 const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const [title, setTitle] = useState("");

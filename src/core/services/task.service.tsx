@@ -1,9 +1,8 @@
 import HTTP_BASE_URL from "../../constants/HttpConstant";
 import { getUserDataFromLocalStorage } from "./Profile.service";
-
 const apiUrl = HTTP_BASE_URL + "/task";
 
-export const createTask = async (data: any) => {
+const createTask = async (data: any) => {
   try {
     const userCreatorId = getUserDataFromLocalStorage()?.id;
 
@@ -14,9 +13,8 @@ export const createTask = async (data: any) => {
     }
     console.log(userCreatorId);
 
-    data.usercreator = userCreatorId;
+    data.usercreator= userCreatorId;
     console.log(data);
-
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -36,8 +34,7 @@ export const createTask = async (data: any) => {
     throw new Error("Error al crear la tarea: " + error.message);
   }
 };
-
-export const deleteTask = async (id: string) => {
+const deleteTask = async (id: string) => {
   try {
     const response = await fetch(`${apiUrl}/${id}`, {
       method: "DELETE",
@@ -54,3 +51,5 @@ export const deleteTask = async (id: string) => {
     throw new Error("Error al eliminar la tarea: " + error.message);
   }
 };
+
+export { createTask, deleteTask };
