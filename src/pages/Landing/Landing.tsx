@@ -1,25 +1,23 @@
 import React from "react";
 import { IonContent, IonPage, IonMenu } from "@ionic/react";
 import Footer from "../../components/Footer/Footer";
+import { Button } from "@mobiscroll/react";
+import Principal from "../../components/Principal/Principal";
 
 const Landing: React.FC = () => {
   return (
-    <>
-      <IonMenu contentId="main-content">
-        <IonContent className="ion-padding">
-          This is the menu content.
-        </IonContent>
-      </IonMenu>
-      <IonPage id="main-content">
-        <div style={{ backgroundColor: "white",height:"100vh",color:"#343434"}}>
-          <div className="ion-padding">
-            Tap the button in the toolbar to open the menu.
-          </div>
-        </div>
+    <div
+      id="main-content"
+      style={{ backgroundColor: "white", height: "100vh", color: "#343434" }}
+    >
+      <div  >
+        <h2 style={{ fontSize: "2rem",margin:"0", padding:"1rem 3rem" }}>Taskker</h2>
+        <Principal></Principal>
         <Footer />
-      </IonPage>
-    </>
+      </div>
+    </div>
   );
 };
 
 export default Landing;
+
