@@ -34,6 +34,7 @@ const createTask = async (data: any) => {
     throw new Error("Error al crear la tarea: " + error.message);
   }
 };
+
 const deleteTask = async (id: string) => {
   try {
     const response = await fetch(`${apiUrl}/${id}`, {
