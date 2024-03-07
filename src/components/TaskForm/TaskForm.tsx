@@ -63,6 +63,7 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
 
       console.log("Tarea creada:", createdTask);
       closeModal();
+      window.location.reload()
     } catch (error: any) {
       console.error("Error al crear la tarea:", error.message);
     }

@@ -13,6 +13,7 @@ import {
 import { add } from "ionicons/icons";
 import TaskForm from "../TaskForm/TaskForm";
 
+
 const AddTask: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
@@ -22,8 +23,11 @@ const AddTask: React.FC = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+
   };
 
+  
+  
   return (
     <>
       <IonFab vertical="bottom" horizontal="end" slot="fixed">

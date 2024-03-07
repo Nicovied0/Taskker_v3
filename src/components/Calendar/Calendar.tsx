@@ -104,7 +104,7 @@ const Calendar: FC = () => {
         </Popup>
       )}
 
-      <AddTask></AddTask>
+      <AddTask ></AddTask>
     </>
   );
 };
