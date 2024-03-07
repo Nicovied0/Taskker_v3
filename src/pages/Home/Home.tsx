@@ -16,7 +16,7 @@ import {
 import { Link } from "react-router-dom";
 import { calendarOutline, calendarSharp, menuOutline } from "ionicons/icons";
 import "./Home.css";
-import CalendarMonth from "../../components/Calendar-month/CalendarMonth";
+import CalendarMonth from "../../components/Calendar-month/CalendarMonth.tsx";
 
 const Home: React.FC = () => {
   const [selectedCalendar, setSelectedCalendar] = useState<"month" | "day">(
