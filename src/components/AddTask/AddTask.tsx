@@ -18,7 +18,7 @@ const AddTask: React.FC = () => {
     <>
       <IonFab vertical="bottom" horizontal="end" slot="fixed">
         <IonFabButton onClick={handleOpenModal}>
-          <IonIcon icon={add} />
+          <IonIcon icon={add} className="icon" />
         </IonFabButton>
       </IonFab>
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./TaskForm.css";
+import { createTask } from "../../core/services/Task.service";
 
 const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const [title, setTitle] = useState("");
@@ -35,13 +36,33 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
     setEndDateTime(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    // Aquí puedes realizar alguna acción con los datos ingresados, como enviarlos a tu backend
-    console.log("Título:", title);
-    console.log("Description:", description);
-    console.log("Fecha y hora de inicio:", startDateTime + ":00");
-    console.log("Fecha y hora de fin:", endDateTime + ":00");
+
+    try {
+      // Aquí puedes realizar alguna acción con los datos ingresados, como enviarlos a tu backend
+      console.log("Título:", title);
+      console.log("Descripción:", description);
+      console.log("Fecha y hora de inicio:", startDateTime + ":00");
+      console.log("Fecha y hora de fin:", endDateTime + ":00");
+
+      // Crear un objeto con los datos de la tarea
+      const taskData = {
+        title: title,
+        description: description,
+        startDateTime: startDateTime + ":00",
+        endDateTime: endDateTime + ":00",
+      };
+
+      // Llamar a la función createTask y pasarle los datos de la tarea
+      const createdTask = await createTask(taskData);
+
+      // Realizar alguna acción con la tarea creada, si es necesario
+      console.log("Tarea creada:", createdTask);
+    } catch (error: any) {
+      // Manejar errores de creación de tarea
+      console.error("Error al crear la tarea:", error.message);
+    }
   };
 
   return (
@@ -79,7 +100,7 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
       <div className="form-group">
         <label htmlFor="startDateTime">Fecha y hora de inicio:</label>
         <input
-          type="date"
+          type="datetime-local"
           id="startDateTime"
           value={startDateTime}
           onChange={handleStartDateTimeChange}
