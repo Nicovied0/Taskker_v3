@@ -1,5 +1,4 @@
 import React from "react";
-import { IonList, IonItem, IonRouterLink } from "@ionic/react";
 
 const Footer: React.FC = () => {
   return (

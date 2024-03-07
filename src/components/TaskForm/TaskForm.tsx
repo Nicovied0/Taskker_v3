@@ -39,7 +39,7 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
     const end = new Date(endDateTime);
 
     if (end <= start) {
-      setButonActive(false)
+      setButonActive(false);
       throw new Error(
         "La fecha y hora de fin deben ser posteriores a la fecha y hora de inicio."
       );
@@ -63,7 +63,7 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
 
       console.log("Tarea creada:", createdTask);
       closeModal();
-      window.location.reload()
+      window.location.reload();
     } catch (error: any) {
       console.error("Error al crear la tarea:", error.message);
     }

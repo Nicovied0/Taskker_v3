@@ -34,7 +34,8 @@
   .textTitle {
     width: 100%;
   }
-  .div{
+  .div {
     flex-direction: column;
+    padding: 0;
   }
 }

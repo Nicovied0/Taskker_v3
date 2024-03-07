@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "../../components/Footer/Footer";
 import Principal from "../../components/Principal/Principal";
+import Cards from "../../components/Cards/Cards";
 
 const Landing: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const Landing: React.FC = () => {
           Taskker
         </h2>
         <Principal></Principal>
+        <Cards></Cards>
         <Footer />
       </div>
     </div>
