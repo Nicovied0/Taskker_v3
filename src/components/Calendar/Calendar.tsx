@@ -11,7 +11,7 @@ import {
   Popup,
 } from "@mobiscroll/react";
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { deleteTask } from "../../core/services/task.service";
+import { deleteTask } from "../../core/services/Task.service";
 import AddTask from "../AddTask/AddTask";
 
 setOptions({
