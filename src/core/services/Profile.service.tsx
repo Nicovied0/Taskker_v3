@@ -18,4 +18,16 @@ function updateRole() {
   }
 }
 
-export { getUserDataFromLocalStorage, updateRole };
+function getIdUser() {
+  const userDataString = localStorage.getItem('userData');
+  if (userDataString) {
+    const data = JSON.parse(userDataString)
+    const id = data.id
+      return id;
+  } else {
+      return null;
+  }
+}
+
+
+export { getUserDataFromLocalStorage, updateRole,getIdUser };

@@ -13,6 +13,7 @@ import {
 import { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { deleteTask } from "../../core/services/Task.service";
 import AddTask from "../AddTask/AddTask";
+import { getIdUser } from "../../core/services/Profile.service";
 
 setOptions({
   locale: localeEs,
@@ -68,12 +69,14 @@ const Calendar: FC = () => {
   };
 
   useEffect(() => {
-    getJson(
-      "https://taskker-back.vercel.app/task",
-      (events: MbscCalendarEvent[]) => {
+    const userId = getIdUser();
+    if (userId) {
+      const apiUrl = `http://localhost:3001/task/user/${userId}`;
+      console.log(apiUrl);
+      getJson(apiUrl, (events: MbscCalendarEvent[]) => {
         setEvents(events);
-      }
-    );
+      });
+    }
   }, []);
 
   return (
@@ -104,7 +107,7 @@ const Calendar: FC = () => {
         </Popup>
       )}
 
-      <AddTask ></AddTask>
+      <AddTask></AddTask>
     </>
   );
 };

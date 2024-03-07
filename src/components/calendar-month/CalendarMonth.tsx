@@ -11,6 +11,7 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { deleteTask } from "../../core/services/Task.service";
 import AddTask from "../../components/AddTask/AddTask";
+import { getIdUser } from "../../core/services/Profile.service";
 
 interface ContainerProps {}
 
@@ -63,11 +64,15 @@ const CalendarMonth: React.FC<ContainerProps> = () => {
   const myView = useMemo(() => ({ calendar: { labels: true } }), []);
 
   useEffect(() => {
-    getJson("https://taskker-back.vercel.app/task", (events) => {
-      setEvents(events);
-
-      console.log(events);
-    });
+    const userId = getIdUser();
+    if (userId) {
+      getJson(
+        `https://taskker-back.vercel.app/task/user/${userId}`,
+        (events) => {
+          setEvents(events);
+        }
+      );
+    }
   }, []);
 
   return (
