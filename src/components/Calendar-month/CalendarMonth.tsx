@@ -12,6 +12,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { deleteTask } from "../../core/services/Task.service.jsx";
 import AddTask from "../../components/AddTask/AddTask";
 import { getIdUser } from "../../core/services/Profile.service";
+import HTTP_BASE_URL from "../../constants/HttpConstant.js"
 
 interface ContainerProps {}
 
@@ -51,7 +52,7 @@ const CalendarMonth: React.FC<ContainerProps> = () => {
         setPopupOpen(false);
         showToast("Evento eliminado");
       })
-      .catch((error:any) => {
+      .catch((error: any) => {
         console.error("Error al eliminar el evento:", error);
       });
   }, [myEvents, selectedEvent]);
@@ -67,8 +68,9 @@ const CalendarMonth: React.FC<ContainerProps> = () => {
     const userId = getIdUser();
     if (userId) {
       getJson(
-        `https://taskker-back.vercel.app/task/user/${userId}`,
+        `${HTTP_BASE_URL}/task/user/${userId}`,
         (events) => {
+          console.log(events);
           setEvents(events);
         }
       );

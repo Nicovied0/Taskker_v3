@@ -13,14 +13,14 @@ const createTask = async (data: any) => {
     }
     console.log(userCreatorId);
 
-    data.usercreator= userCreatorId;
+    data.usercreator = userCreatorId;
     console.log(data);
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
 
     if (!response.ok) {
@@ -48,7 +48,6 @@ const deleteTask = async (id: string) => {
     const data = await response.json();
     return data;
   } catch (error: any) {
-    // Especificar el tipo de error como 'any'
     throw new Error("Error al eliminar la tarea: " + error.message);
   }
 };

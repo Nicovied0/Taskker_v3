@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./TaskForm.css";
 import { createTask } from "../../core/services/Task.service.jsx";
+import { format,addDays } from "date-fns";
 
 const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const [title, setTitle] = useState("");
@@ -8,7 +9,7 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const [meetingUrl, setMeetingUrl] = useState("");
   const [startDateTime, setStartDateTime] = useState("");
   const [endDateTime, setEndDateTime] = useState("");
-  const [butonActive, setButonActive] = useState(false);
+  const [buttonActive, setButtonActive] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -19,6 +20,7 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   ) => {
     setDescription(event.target.value);
   };
+
   const handleMeetingUrlChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -39,33 +41,49 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
     const end = new Date(endDateTime);
 
     if (end <= start) {
-      setButonActive(false);
+      setButtonActive(false);
       throw new Error(
         "La fecha y hora de fin deben ser posteriores a la fecha y hora de inicio."
       );
     } else {
-      setButonActive(true);
+      setButtonActive(true);
     }
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+    
     try {
-      const taskData = {
-        title: title,
-        description: description,
-        start: startDateTime + ":00",
-        end: endDateTime + ":00",
-      };
-
-      const createdTask = await createTask(taskData);
-
-      console.log("Tarea creada:", createdTask);
+      const startDate = new Date(startDateTime);
+      const endDate = new Date(endDateTime);
+      
+      const days = Math.floor((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000)) + 1;
+      
+      const events = Array.from({ length: days }, (_, index) => {
+        const currentDate = addDays(startDate, index);
+        const formattedStartDate = format(currentDate, "yyyy-MM-dd");
+        
+        let diaryEvent = false;
+        if (days > 1) {
+          diaryEvent = true;
+        }
+        
+        return {
+          title: title,
+          description: description,
+          start: formattedStartDate + "T" + startDateTime.split('T')[1] + ":00", 
+          end: formattedStartDate + "T" + endDateTime.split('T')[1] + ":00",
+          diaryEvent: diaryEvent, 
+        };
+      });
+      
+      await Promise.all(events.map(createTask));
+      
+      console.log("Tareas creadas:", events);
       closeModal();
-      window.location.reload();
+      // window.location.reload();
     } catch (error: any) {
-      console.error("Error al crear la tarea:", error.message);
+      console.error("Error al crear las tareas:", error.message);
     }
   };
 
@@ -82,7 +100,7 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="title">Descripcion:</label>
+        <label htmlFor="description">Descripción:</label>
         <input
           type="text"
           id="description"
@@ -92,13 +110,12 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
         />
       </div>
       <div className="form-group">
-        <label htmlFor="title">Url:</label>
+        <label htmlFor="meetingUrl">Url:</label>
         <input
-          type="text"
+          type="url"
           id="meetingUrl"
           value={meetingUrl}
           onChange={handleMeetingUrlChange}
-          required
         />
       </div>
       <div className="form-group">
@@ -122,7 +139,7 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
         />
       </div>
       <div className="form-buttons">
-        {!butonActive ? (
+        {!buttonActive ? (
           <button type="submit" className="save-button2" disabled>
             Guardar
           </button>
