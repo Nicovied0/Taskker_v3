@@ -12,6 +12,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ onSubmit }) => {
   const [name, setName] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isValid, setIsValid] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +32,18 @@ const AuthForm: React.FC<AuthFormProps> = ({ onSubmit }) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  React.useEffect(() => {
+    validateData();
+  }, [email, password, name, isRegistering]);
+
+  const validateData = () => {
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const isPasswordValid = password.length >= 5;
+    setIsValid(
+      isEmailValid && isPasswordValid && (!isRegistering || name !== "")
+    );
   };
 
   return (
@@ -106,13 +119,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ onSubmit }) => {
         <button
           type="submit"
           style={{
-            backgroundColor: "#007bff",
+            backgroundColor: isValid ? "#007bff" : "#ccc",
             color: "#fff",
             padding: "0.5rem 1rem",
             borderRadius: "4px",
             border: "none",
-            cursor: "pointer",
+            cursor: isValid ? "pointer" : "not-allowed",
           }}
+          disabled={!isValid || isLoading}
         >
           {!isLoading && <>{isRegistering ? "Registrarse" : "Loguearse"}</>}
           {isLoading && (

@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 const Auth: React.FC = () => {
   const handleAuthSubmit = (email: string, password: string) => {
-    // Aquí puedes manejar la lógica de autenticación, por ejemplo, enviar una solicitud al servidor
     console.log("Email:", email);
     console.log("Password:", password);
   };
