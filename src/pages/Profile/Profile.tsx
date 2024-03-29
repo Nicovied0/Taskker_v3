@@ -47,7 +47,9 @@ const Profile: React.FC = () => {
             <IonTitle>Menu</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent className="ion-padding"></IonContent>
+        <IonContent className="ion-padding">
+          <h2>menu</h2>
+        </IonContent>
       </IonPage>
     </>
   );
