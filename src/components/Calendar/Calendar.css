@@ -1,0 +1,9 @@
+
+
+.modal_edt{
+    min-width: 40em;
+}
+::ng-deep body > div.mbsc-font.mbsc-flex.mbsc-popup-wrapper.mbsc-popup-wrapper-center.mbsc-ios.mbsc-ltr.modal_edt.mbsc-popup-pointer.mbsc-popup-round > div.mbsc-flex-col.mbsc-popup.mbsc-popup-center.mbsc-ios > div.mbsc-flex-col.mbsc-flex-1-1.mbsc-popup-body.mbsc-popup-body-center.mbsc-ios.mbsc-popup-body-round{
+
+    min-width: 40em;
+}

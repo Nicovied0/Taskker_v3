@@ -1,33 +1,36 @@
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { format } from "date-fns";
+import "./Calendar.css";
 import {
   Eventcalendar,
   getJson,
   MbscCalendarEvent,
   MbscEventcalendarView,
-  MbscEventClickEvent,
-  localeEs,
   setOptions,
   Toast,
   Button,
   Popup,
 } from "@mobiscroll/react";
-import { FC, useCallback, useEffect, useMemo, useState } from "react";
-import { deleteTask } from "../../core/services/Task.service.jsx";
+import { deleteTask, updateTask } from "../../core/services/Task.service.jsx";
 import AddTask from "../AddTask/AddTask";
 import { getIdUser } from "../../core/services/Profile.service.jsx";
 import HTTP_BASE_URL from "../../constants/HttpConstant.js";
+import EditEvent from "../Edit-event/Edit-event.js";
 
 setOptions({
-  locale: localeEs,
   theme: "ios",
   themeVariant: "light",
 });
 
-const Calendar: FC = () => {
+const Calendar: React.FC = () => {
   const [myEvents, setEvents] = useState<MbscCalendarEvent[]>([]);
   const [isToastOpen, setToastOpen] = useState<boolean>(false);
   const [toastText, setToastText] = useState<string>();
-  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [selectedEvent, setSelectedEvent] = useState<MbscCalendarEvent | null>(
+    null
+  );
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [isPopupOpen2, setPopupOpen2] = useState(false);
 
   const myView = useMemo<MbscEventcalendarView>(
     () => ({
@@ -46,23 +49,24 @@ const Calendar: FC = () => {
   }, []);
 
   const handleEditEvent = useCallback(() => {
-    console.log("Editar evento:", selectedEvent);
-    setPopupOpen(false);
-    showToast("Evento editado");
-  }, [selectedEvent]);
+    setPopupOpen2(true);
+  }, []);
 
   const handleDeleteEvent = useCallback(() => {
-    const updatedEvents = myEvents.filter((event) => event !== selectedEvent);
-    setEvents(updatedEvents);
+    if (!selectedEvent) return;
+
     deleteTask(selectedEvent._id)
       .then(() => {
         setPopupOpen(false);
         showToast("Evento eliminado");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       })
       .catch((error: any) => {
         console.error("Error al eliminar el evento:", error);
       });
-  }, [myEvents, selectedEvent]);
+  }, [selectedEvent]);
 
   const showToast = (message: string) => {
     setToastText(message);
@@ -76,11 +80,39 @@ const Calendar: FC = () => {
       console.log(apiUrl);
       getJson(apiUrl, (events: MbscCalendarEvent[]) => {
         console.log(events);
-
         setEvents(events);
       });
     }
   }, []);
+
+  const handleEditSubmit = useCallback(
+    async (editedEvent: MbscCalendarEvent) => {
+      if (!selectedEvent) return;
+
+      try {
+        console.log(selectedEvent)
+        const updatedEvent = await updateTask(selectedEvent._id, editedEvent);
+        if (!updatedEvent) throw new Error("No se pudo actualizar el evento.");
+
+        setEvents((prevEvents) =>
+          prevEvents.map((event) =>
+            event.id === updatedEvent.id ? updatedEvent : event
+          )
+        );
+
+        showToast("Evento editado correctamente");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+      } catch (error) {
+        console.error("Error al editar el evento:", error);
+        showToast("Error al editar el evento");
+      } finally {
+        setPopupOpen(false);
+      }
+    },
+    [selectedEvent]
+  );
 
   return (
     <>
@@ -94,6 +126,20 @@ const Calendar: FC = () => {
         view={myView}
         onEventClick={handleEventClick}
       />
+
+      <Popup
+        isOpen={isPopupOpen2}
+        onClose={() => setPopupOpen2(false)}
+        display="center"
+        className="modal_edt"
+      >
+        <EditEvent
+          event={selectedEvent}
+          onSave={handleEditSubmit}
+          onCancel={() => setPopupOpen2(false)}
+        />
+      </Popup>
+
       {selectedEvent && (
         <Popup
           isOpen={isPopupOpen}
@@ -101,16 +147,21 @@ const Calendar: FC = () => {
           display="center"
         >
           <div>
-            <h3>{selectedEvent.title}</h3>
-            <p>{selectedEvent.description}</p>
-            <p>{selectedEvent.status}</p>
+            <h3>Titulo: {selectedEvent.title}</h3>
+            <p>Descripcion: {selectedEvent.description}</p>
+            <p>Estado: {selectedEvent.status}</p>
+            <p>
+              Fecha: Desde las {format(new Date(selectedEvent.start), " HH:mm")}{" "}
+              hasta las {format(new Date(selectedEvent.end), " HH:mm")}.
+            </p>
+            <p>Url reunion: <a href={selectedEvent.meetingUrl} target="_blank">{selectedEvent.meetingUrl}</a> </p>
             <Button onClick={handleEditEvent}>Editar</Button>
             <Button onClick={handleDeleteEvent}>Eliminar</Button>
           </div>
         </Popup>
       )}
 
-      <AddTask></AddTask>
+      <AddTask />
     </>
   );
 };

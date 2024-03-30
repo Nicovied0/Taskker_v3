@@ -51,6 +51,9 @@ const CalendarMonth: React.FC<ContainerProps> = () => {
       .then(() => {
         setPopupOpen(false);
         showToast("Evento eliminado");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       })
       .catch((error: any) => {
         console.error("Error al eliminar el evento:", error);

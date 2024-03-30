@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./TaskForm.css";
 import { createTask } from "../../core/services/Task.service.jsx";
-import { format,addDays } from "date-fns";
+import { format, addDays } from "date-fns";
+import { generateCode } from "../../core/services/CodeRepeat.service.js";
 
 const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
   const [title, setTitle] = useState("");
@@ -52,36 +53,46 @@ const TaskForm: React.FC<{ closeModal: () => void }> = ({ closeModal }) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    
+
     try {
       const startDate = new Date(startDateTime);
       const endDate = new Date(endDateTime);
-      
-      const days = Math.floor((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000)) + 1;
-      
+
+      const days =
+        Math.floor(
+          (endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000)
+        ) + 1;
+
+      let diaryEventCode = "";
+      if (days > 1) {
+        diaryEventCode = generateCode();
+      }
+
       const events = Array.from({ length: days }, (_, index) => {
         const currentDate = addDays(startDate, index);
         const formattedStartDate = format(currentDate, "yyyy-MM-dd");
-        
+
         let diaryEvent = false;
         if (days > 1) {
           diaryEvent = true;
         }
-        
+
         return {
           title: title,
           description: description,
-          start: formattedStartDate + "T" + startDateTime.split('T')[1] + ":00", 
-          end: formattedStartDate + "T" + endDateTime.split('T')[1] + ":00",
-          diaryEvent: diaryEvent, 
+          start: formattedStartDate + "T" + startDateTime.split("T")[1] + ":00",
+          end: formattedStartDate + "T" + endDateTime.split("T")[1] + ":00",
+          diaryEvent: diaryEvent,
+          codeOfRepeat: diaryEvent ? diaryEventCode : null, 
+          meetingUrl:meetingUrl
         };
       });
-      
+
       await Promise.all(events.map(createTask));
-      
+
       console.log("Tareas creadas:", events);
       closeModal();
-      // window.location.reload();
+      window.location.reload();
     } catch (error: any) {
       console.error("Error al crear las tareas:", error.message);
     }

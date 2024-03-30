@@ -52,4 +52,25 @@ const deleteTask = async (id: string) => {
   }
 };
 
-export { createTask, deleteTask };
+const updateTask = async (id: string, updatedTaskData: any) => {
+  try {
+    const response = await fetch(`${apiUrl}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTaskData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error al actualizar la tarea: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    throw new Error("Error al actualizar la tarea: " + error.message);
+  }
+};
+
+export { createTask, deleteTask, updateTask };
